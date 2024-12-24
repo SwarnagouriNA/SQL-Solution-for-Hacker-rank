@@ -1,0 +1,9 @@
+---------------1. Binary Tree Nodes---------------
+SELECT N,
+CASE
+    WHEN P is null THEN 'Root'
+    WHEN N in (SELECT P FROM bst) THEN 'Inner'
+    Else 'Leaf'
+END
+from BST
+ORDER BY N
