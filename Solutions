@@ -6,4 +6,34 @@ CASE
     Else 'Leaf'
 END
 from BST
-ORDER BY N
+ORDER BY N;
+
+---------------2. New Companies---------------
+SELECT  e.company_code, c.founder, COUNT(DISTINCT e.lead_manager_code),
+COUNT(DISTINCT e.senior_manager_code),
+COUNT(DISTINCT e.manager_code),
+COUNT(DISTINCT e.employee_code)
+FROM Employee e
+    inner join Company c
+    on e.company_code = c.company_code
+GROUP BY 1,2
+ORDER BY 1 asc;
+
+---------------3. Ollivander's Inventory---------------
+with base as(
+    SELECT code, age FROM wands_property
+    WHERE is_evil = 0
+    GROUP BY code, age  
+),
+
+final as(
+SELECT w.id, w.code, w.coins_needed, w.power, p.age,
+    row_number() over (partition by w.code, w.power order by w.power desc, w.coins_needed asc) rank_val
+    FROM wands w
+    inner join base p
+    on w.code =p.code
+)
+
+SELECT id, age, coins_needed, power FROM final
+WHER rank_val=1
+order by power desc, age desc;
