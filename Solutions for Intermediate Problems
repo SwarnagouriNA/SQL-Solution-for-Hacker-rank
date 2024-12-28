@@ -37,3 +37,14 @@ SELECT w.id, w.code, w.coins_needed, w.power, p.age,
 SELECT id, age, coins_needed, power FROM final
 WHER rank_val=1
 order by power desc, age desc;
+
+--------------- 4. Weather Observation Station 20 to find median of the Northern Latitudes---------------
+
+SELECT ROUND(AVG(LAT_N),4) FROM(
+SELECT *, count(*) over() as lat_cont,
+row_number() over(order by LAT_N asc) row_val
+from STATION
+GROUP BY 1,2,3,4,5
+ORDER BY LAT_N
+) a
+where row_val in (floor((lat_cont+1)/2), ceiling((lat_cont+1)/2));
