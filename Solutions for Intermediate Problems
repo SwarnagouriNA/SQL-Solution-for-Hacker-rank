@@ -72,3 +72,22 @@ sum(total_view), sum(total_unique_view)
     ON ch.challenge_id = m.challenge_id
 GROUP BY 1,2,3
 ORDER BY 1;
+
+---------------6. The Report---------------
+WITH base as(
+SELECT s.*, g.* 
+FROM Students s
+LEFT JOIN grades g
+on s.marks >= min_mark and s.marks<= max_mark
+    ),   
+ final as(   
+    SELECT name, grade, marks
+        FROM base
+        WHERE grade >= 8 
+    UNION ALL
+    SELECT 'NULL' as name, grade, marks
+        FROM base
+        WHERE grade <8
+ ) 
+ SELECT * FROM final
+ORDER BY grade desc, name asc;
