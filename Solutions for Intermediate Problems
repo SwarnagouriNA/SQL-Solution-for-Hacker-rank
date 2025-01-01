@@ -93,7 +93,7 @@ on s.marks >= min_mark and s.marks<= max_mark
 ORDER BY grade desc, name asc;
 
 ---------------7. Top Compitators---------------
-SELECT concat(hacker_id, '  ', name)
+SELECT concat(h.hacker_id, '  ', h.name)
 FROM hackers h 
     INNER JOIN submissions s
     ON h.hacker_id = s.hacker_id
@@ -102,7 +102,7 @@ FROM hackers h
 INNER JOIN difficulty d
 ON c.difficulty_level = d.difficulty_level
     WHERE d.score =s.score
-GROUP BY hacker_id, name
+GROUP BY h.hacker_id, h.name
 HAVING count(*)>1
-ORDER BY count(*) desc, hacker_id asc;
+ORDER BY count(*) desc, h.hacker_id asc;
 
