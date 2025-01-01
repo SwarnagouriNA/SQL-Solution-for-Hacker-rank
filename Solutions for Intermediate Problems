@@ -91,3 +91,18 @@ on s.marks >= min_mark and s.marks<= max_mark
  ) 
  SELECT * FROM final
 ORDER BY grade desc, name asc;
+
+---------------7. Top Compitators---------------
+SELECT concat(hacker_id, '  ', name)
+FROM hackers h 
+    INNER JOIN submissions s
+    ON h.hacker_id = s.hacker_id
+    INNER JOIN Challenges c
+    ON s.challenge_id = c.challenge_id
+INNER JOIN difficulty d
+ON c.difficulty_level = d.difficulty_level
+    WHERE d.score =s.score
+GROUP BY hacker_id, name
+HAVING count(*)>1
+ORDER BY count(*) desc, hacker_id asc;
+
